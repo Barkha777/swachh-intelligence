@@ -2,7 +2,7 @@
 
 > **Next-Generation AI & Geospatial Municipal Waste Management Platform**
 
-[![Live Demo (Vercel)](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://swachh-intelligence-nabr.vercel.app)
+[![Live Demo (Vercel)](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://swachh-intelligence.vercel.app)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
@@ -12,7 +12,7 @@
 ## 🌐 Live Application Link
 
 - ⚡ **Live Production Deployment (Vercel)**:  
-  👉 **[https://swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)** *(Full-stack Vite + Serverless API)*
+  👉 **[https://swachh-intelligence.vercel.app](https://swachh-intelligence.vercel.app)** *(Full-stack Vite + Serverless API)*
 
 ---
 
@@ -108,7 +108,7 @@ Provides backend endpoints for both standalone Node/Express servers and Vercel S
 
 ### Vercel Deployment (Production)
 Configured with zero-config rewrites in [`vercel.json`](vercel.json) and serverless function entrypoint at [`api/index.js`](api/index.js).
-- Pushing to `main` automatically triggers production builds on Vercel at **[swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)**.
+- Pushing to `main` automatically triggers production builds on Vercel at **[swachh-intelligence.vercel.app](https://swachh-intelligence.vercel.app)**.
 
 ---
 
