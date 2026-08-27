@@ -2,7 +2,7 @@
 
 > **Next-Generation AI & Geospatial Municipal Waste Management Platform**
 
-[![Live Demo (Vercel)](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://swachh-intelligence-ap.vercel.app)
+[![Live Demo (Vercel)](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://swachh-intelligence-nabr.vercel.app)
 [![Backup Demo (GitHub Pages)](https://img.shields.io/badge/Backup%20Demo-GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)](https://barkha777.github.io/swachh-intelligence/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
@@ -13,7 +13,8 @@
 ## 🌐 Live Application Links
 
 - ⚡ **Primary Live Deployment (Vercel)**:  
-  👉 **[https://swachh-intelligence-ap.vercel.app](https://swachh-intelligence-ap.vercel.app)** *(Full-stack Vite + Serverless API)*
+  👉 **[https://swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)** *(Full-stack Vite + Serverless API)*  
+  👉 *(Alternative Domain: [https://swachh-intelligence-ap.vercel.app](https://swachh-intelligence-ap.vercel.app))*
 
 - 🛡️ **Backup Live Deployment (GitHub Pages)**:  
   👉 **[https://barkha777.github.io/swachh-intelligence/](https://barkha777.github.io/swachh-intelligence/)** *(Automatic GitHub Actions static mirror if Vercel is offline)*
