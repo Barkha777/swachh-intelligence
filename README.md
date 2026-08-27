@@ -3,20 +3,16 @@
 > **Next-Generation AI & Geospatial Municipal Waste Management Platform**
 
 [![Live Demo (Vercel)](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://swachh-intelligence-nabr.vercel.app)
-[![Backup Demo (GitHub Pages)](https://img.shields.io/badge/Backup%20Demo-GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)](https://barkha777.github.io/swachh-intelligence/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Express.js](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
 
 ---
 
-## 🌐 Live Application Links
+## 🌐 Live Application Link
 
-- ⚡ **Primary Live Deployment (Vercel)**:  
+- ⚡ **Live Production Deployment (Vercel)**:  
   👉 **[https://swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)** *(Full-stack Vite + Serverless API)*
-
-- 🛡️ **Backup Live Deployment (GitHub Pages)**:  
-  👉 **[https://barkha777.github.io/swachh-intelligence/](https://barkha777.github.io/swachh-intelligence/)** *(Automatic GitHub Actions static mirror)*
 
 ---
 
@@ -110,13 +106,9 @@ Provides backend endpoints for both standalone Node/Express servers and Vercel S
 
 ## 📦 Deployment Architecture
 
-### 1. Vercel Deployment (Primary)
+### Vercel Deployment (Production)
 Configured with zero-config rewrites in [`vercel.json`](vercel.json) and serverless function entrypoint at [`api/index.js`](api/index.js).
-- Pushing to `main` automatically triggers production builds on Vercel at **[swachh-intelligence-ap.vercel.app](https://swachh-intelligence-ap.vercel.app)**.
-
-### 2. GitHub Pages Deployment (Automatic Backup)
-Configured with GitHub Actions workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
-- Automatically builds the Vite application and publishes static assets to **[barkha777.github.io/swachh-intelligence](https://barkha777.github.io/swachh-intelligence/)** whenever code is pushed to `main`.
+- Pushing to `main` automatically triggers production builds on Vercel at **[swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)**.
 
 ---
 
