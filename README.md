@@ -13,11 +13,10 @@
 ## 🌐 Live Application Links
 
 - ⚡ **Primary Live Deployment (Vercel)**:  
-  👉 **[https://swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)** *(Full-stack Vite + Serverless API)*  
-  👉 *(Alternative Domain: [https://swachh-intelligence-ap.vercel.app](https://swachh-intelligence-ap.vercel.app))*
+  👉 **[https://swachh-intelligence-nabr.vercel.app](https://swachh-intelligence-nabr.vercel.app)** *(Full-stack Vite + Serverless API)*
 
 - 🛡️ **Backup Live Deployment (GitHub Pages)**:  
-  👉 **[https://barkha777.github.io/swachh-intelligence/](https://barkha777.github.io/swachh-intelligence/)** *(Automatic GitHub Actions static mirror if Vercel is offline)*
+  👉 **[https://barkha777.github.io/swachh-intelligence/](https://barkha777.github.io/swachh-intelligence/)** *(Automatic GitHub Actions static mirror)*
 
 ---
 
