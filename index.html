@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swachh Intelligence | Nagpur Municipal Corporation Smart Waste Command Center</title>
+  <meta name="description" content="AI-Powered Municipal Solid Waste Command Center for Waste Classification, GPS Fleet Tracking, GVP Risk Prediction, and Swachh Survekshan Audit Automation for Nagpur Municipal Corporation." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/logo.png" />
+
+  <!-- Google Fonts: Plus Jakarta Sans, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- ==========================================================================
+       STICKY HEADER & CIVIC COMMAND BAR
+       ========================================================================== -->
+  <header class="site-header" id="main-header">
+    <!-- Top Government Command Status Strip -->
+    <div class="top-command-bar">
+      <div class="govt-branding-row">
+        <img src="/assets/logo.png" alt="NMC Logo" class="nmc-emblem-img" />
+        <div class="govt-text-group">
+          <span class="govt-org-name">NAGPUR MUNICIPAL CORPORATION (NMC)</span>
+          <span class="govt-sub">Solid Waste Management Department • Swachh Bharat Mission (Urban 2.0)</span>
+        </div>
+      </div>
+
+      <div class="command-bar-actions">
+        <!-- Live IST Clock -->
+        <div class="live-clock-widget" id="header-live-clock" title="Indian Standard Time">
+          <span class="clock-time">--:--:-- IST</span>
+          <span class="clock-date">-- --- ----</span>
+        </div>
+
+        <!-- Simulation Speed and Controls -->
+        <div class="sim-controls-group">
+          <select id="sim-speed-selector" class="sim-select" title="Simulation Speed">
+            <option value="1">1x Live Pace</option>
+            <option value="2">2x Fast Forward</option>
+            <option value="5">5x Rapid Simulation</option>
+          </select>
+
+          <button id="btn-sim-play-pause" class="btn-sim-play" title="Toggle Live Simulation Feed">
+            <i data-lucide="pause"></i>
+            <span>Live Feed Active</span>
+          </button>
+
+          <button id="btn-toggle-sound" class="btn-icon-square" title="Alert Audio On">
+            <i data-lucide="volume-2"></i>
+          </button>
+
+          <button id="btn-theme-toggle" class="btn-icon-square" title="Toggle Theme">
+            <i data-lucide="moon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar with City Health Meter -->
+    <nav class="main-nav-bar">
+      <div class="site-logo-wrap">
+        <div class="logo-badge-icon">
+          <i data-lucide="sparkles"></i>
+        </div>
+        <div class="logo-title-group">
+          <h1>Swachh <span>Intelligence</span></h1>
+          <span class="logo-tagline">Municipal Command & Audit Automation System</span>
+        </div>
+      </div>
+
+      <ul class="nav-links-list">
+        <li><a href="#hero-section" class="nav-link active"><i data-lucide="layout-dashboard"></i> Overview</a></li>
+        <li><a href="#module-segregation" class="nav-link"><i data-lucide="scan-line"></i> Segregation AI</a></li>
+        <li><a href="#module-fleet" class="nav-link"><i data-lucide="truck"></i> Fleet GPS & Routes</a></li>
+        <li><a href="#module-gvp" class="nav-link"><i data-lucide="alert-triangle"></i> GVP Risk Predictor</a></li>
+        <li><a href="#module-evidence" class="nav-link"><i data-lucide="file-check-2"></i> Survekshan Dossier</a></li>
+      </ul>
+
+      <div class="header-right-kpi">
+        <!-- Live City Cleanliness Health Score Widget -->
+        <div class="city-health-widget" id="city-health-widget" title="Live Municipal Cleanliness Index">
+          <div class="health-score-ring">
+            <div class="pulse-dot"></div>
+          </div>
+          <div class="health-meta">
+            <span class="health-label">City Health Index</span>
+            <span class="health-score-val" id="header-health-score-val">88.4/100</span>
+            <span class="health-status-sub">Grade A+ (Exemplary)</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ==========================================================================
+       HERO & PROBLEM FRAMING SECTION
+       ========================================================================== -->
+  <section class="hero-section" id="hero-section">
+    <!-- 3D WebGL Interactive Map Canvas Background -->
+    <div id="hero-3d-map-container" class="hero-3d-map-container"></div>
+    <div class="container">
+      <div class="hero-banner-grid">
+        <div class="hero-content">
+          <h2>Smart Waste Command Center</h2>
+          <div class="hero-chips-row">
+            <span class="hero-chip"><i data-lucide="map-pin"></i> Nagpur Municipal Corporation</span>
+            <span class="hero-chip"><i data-lucide="zap"></i> Real-Time GPS Fleet Tracking</span>
+            <span class="hero-chip"><i data-lucide="shield-check"></i> Swachh Survekshan Audit</span>
+          </div>
+
+          <div class="hero-stats-row">
+            <div class="hero-stat-card">
+              <span class="stat-label">AI Segregation Accuracy</span>
+              <span class="stat-val text-success">92.4%</span>
+              <span class="stat-sub">Target: >85% Mandate</span>
+            </div>
+            <div class="hero-stat-card">
+              <span class="stat-label">Active Pilot Zones</span>
+              <span class="stat-val text-cyan">2 Zones</span>
+              <span class="stat-sub">Dharampeth & Laxmi Nagar</span>
+            </div>
+            <div class="hero-stat-card">
+              <span class="stat-label">Daily Route Coverage</span>
+              <span class="stat-val text-main">94.8%</span>
+              <span class="stat-sub">18 Active EV Units</span>
+            </div>
+            <div class="hero-stat-card">
+              <span class="stat-label">GVPs Monitored</span>
+              <span class="stat-val text-amber">100 Points</span>
+              <span class="stat-sub">7-Day Risk AI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Telemetry & Event Ticker -->
+        <div class="hero-live-feed-card">
+          <div class="feed-header">
+            <h4><span class="pulse-dot"></span> Live Municipal Incident Stream</h4>
+            <span class="badge badge-success">Telemetry Syncing</span>
+          </div>
+          <div class="live-incident-ticker-list" id="live-incident-ticker-list">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODULE 1: SEGREGATION SCORING ENGINE (AI CLASSIFIER & WARD SCORECARD)
+       ========================================================================== -->
+  <section class="dashboard-module" id="module-segregation">
+    <div class="container">
+      <div class="module-header-row">
+        <div class="module-title-group">
+          <span class="module-tag">Module Deliverable 01</span>
+          <h2>Waste Segregation AI Scoring Engine</h2>
+          <p>Multi-spectral vision classifier scoring segregation purity across Wet, Dry, Hazardous, and C&D streams into Blue, Green, and Red color bins.</p>
+        </div>
+
+        <div class="module-actions-toolbar">
+          <span class="status-pill status-pill-success">
+            <i data-lucide="check-circle-2"></i> Model Benchmark: 92.4% Accuracy (Target 85%+)
+          </span>
+        </div>
+      </div>
+
+      <!-- Classifier Workstation -->
+      <div class="classifier-workstation-grid">
+        <!-- Left: Image Viewport & Preset Switcher -->
+        <div class="classifier-viewport-card">
+          <div class="viewport-media-stage" id="classifier-scan-viewport">
+            <img src="/assets/samples/wet_organic.png" alt="Waste Sample" class="viewport-img" id="classifier-main-img" />
+            <div class="scan-laser-beam" id="classifier-scan-laser"></div>
+            <div class="ai-bbox-overlay" id="classifier-bbox-overlay"></div>
+          </div>
+
+          <div class="viewport-controls-row">
+            <div class="classifier-dropzone" id="classifier-upload-dropzone">
+              <i data-lucide="upload-cloud"></i>
+              <span>Drop custom waste photo or browse</span>
+              <input type="file" id="classifier-file-input" accept="image/*" style="display:none" />
+            </div>
+            <span class="text-muted" style="font-size:0.75rem">Supports JPG, PNG, WebP</span>
+          </div>
+
+          <!-- Presets Shelf -->
+          <div class="presets-selector-shelf">
+            <span class="presets-shelf-title">Select Preset Waste Stream Scenarios:</span>
+            <div class="preset-selector-grid" id="preset-selector-grid">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- 4 Color Bins Visualizer -->
+          <div class="visual-bins-rack">
+            <div class="visual-bin-card bin-green" data-bin-type="green">
+              <span class="v-bin-icon">🟢</span>
+              <span class="v-bin-name">Green Bin</span>
+              <span class="v-bin-stream">Wet / Organic</span>
+            </div>
+            <div class="visual-bin-card bin-blue" data-bin-type="blue">
+              <span class="v-bin-icon">🔵</span>
+              <span class="v-bin-name">Blue Bin</span>
+              <span class="v-bin-stream">Dry Recyclable</span>
+            </div>
+            <div class="visual-bin-card bin-red" data-bin-type="red">
+              <span class="v-bin-icon">🔴</span>
+              <span class="v-bin-name">Red Bin</span>
+              <span class="v-bin-stream">Hazardous/Sanitary</span>
+            </div>
+            <div class="visual-bin-card bin-grey" data-bin-type="grey">
+              <span class="v-bin-icon">🟡</span>
+              <span class="v-bin-name">C&D Station</span>
+              <span class="v-bin-stream">Debris / Aggregates</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: AI Classification Results & Protocol -->
+        <div class="classifier-results-card" id="classifier-results-panel">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Ward-Level Scorecard Grid & Heatmap -->
+      <div class="scorecard-container-card">
+        <div class="scorecard-filter-bar">
+          <div class="scorecard-controls-left">
+            <div>
+              <h3 style="font-size:1.15rem; font-weight:800;">Ward-Level Segregation Scorecard</h3>
+              <span class="text-muted" style="font-size:0.78rem" id="scorecard-ward-count">Showing 30 of 30 Wards across Nagpur City</span>
+            </div>
+          </div>
+
+          <div class="module-actions-toolbar">
+            <select id="scorecard-zone-filter" class="form-select">
+              <option value="all">All Administrative Zones</option>
+              <option value="zone-2">Zone 2: Dharampeth (Pilot)</option>
+              <option value="zone-1">Zone 1: Laxmi Nagar (Pilot)</option>
+              <option value="zone-3">Zone 3: Hanuman Nagar</option>
+              <option value="zone-4">Zone 4: Dhantoli</option>
+              <option value="zone-5">Zone 5: Nehru Nagar</option>
+              <option value="zone-6">Zone 6: Gandhibagh</option>
+              <option value="zone-7">Zone 7: Satranjipura</option>
+              <option value="zone-8">Zone 8: Lakadganj</option>
+              <option value="zone-9">Zone 9: Ashi Nagar</option>
+              <option value="zone-10">Zone 10: Mangalwari</option>
+            </select>
+
+            <select id="scorecard-sort-filter" class="form-select">
+              <option value="complianceScore-desc">Compliance Score (High to Low)</option>
+              <option value="complianceScore-asc">Compliance Score (Low to High)</option>
+              <option value="wardNumber-asc">Ward Number (Ascending)</option>
+            </select>
+
+            <input type="text" id="scorecard-search-input" class="form-input" placeholder="Search ward or inspector..." />
+          </div>
+        </div>
+
+        <div class="ward-scorecard-grid" id="ward-scorecard-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODULE 2: FLEET TRACKING & ROUTE-ADHERENCE ENGINE
+       ========================================================================== -->
+  <section class="dashboard-module" id="module-fleet">
+    <div class="container">
+      <div class="module-header-row">
+        <div class="module-title-group">
+          <span class="module-tag">Module Deliverable 02</span>
+          <h2>Collection Fleet Tracking & Route-Adherence Engine</h2>
+          <p>Live GIS tracking of electric compactors and micro-trolleys across 2 Nagpur pilot zones with skipped-street overlays and load cell sensor telemetry.</p>
+        </div>
+
+        <div class="module-actions-toolbar">
+          <select id="fleet-zone-filter" class="form-select">
+            <option value="all">All Pilot Zones (Nagpur)</option>
+            <option value="zone-2">Pilot Zone B: Dharampeth</option>
+            <option value="zone-1">Pilot Zone A: Laxmi Nagar</option>
+            <option value="zone-4">Zone 4: Dhantoli</option>
+            <option value="zone-3">Zone 3: Hanuman Nagar</option>
+          </select>
+
+          <label class="form-check-label" style="display:flex; align-items:center; gap:6px; font-size:0.8rem; color:var(--text-muted); cursor:pointer;">
+            <input type="checkbox" id="toggle-skipped-streets" />
+            <span>Show Skipped Streets Only</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Mileage & Real-Time Load Weight Readout Strip -->
+      <div class="mileage-load-strip">
+        <div class="ml-item">
+          <span class="ml-lbl">Total Fleet Mileage Today</span>
+          <span class="ml-val text-cyan" id="fleet-total-mileage">238.7 km</span>
+          <span class="ml-sub">Zero tailpipe emissions (100% EV)</span>
+        </div>
+        <div class="ml-item">
+          <span class="ml-lbl">Total Tonnage Cleared</span>
+          <span class="ml-val text-emerald" id="fleet-total-load">12.86 MT</span>
+          <span class="ml-sub">Live onboard strain load cells</span>
+        </div>
+        <div class="ml-item">
+          <span class="ml-lbl">Average Route Adherence</span>
+          <span class="ml-val text-success" id="fleet-avg-coverage">92.4%</span>
+          <span class="ml-sub">Benchmark: >90% Required</span>
+        </div>
+        <div class="ml-item">
+          <span class="ml-lbl">Active Vehicles on Duty</span>
+          <span class="ml-val text-main" id="fleet-active-count">7/8</span>
+          <span class="ml-sub">1 Unit Offloading at Depot</span>
+        </div>
+      </div>
+
+      <!-- GIS Map & Real-Time Telemetry Grid -->
+      <div class="fleet-dashboard-grid">
+        <!-- Left: Interactive Leaflet Map -->
+        <div class="fleet-map-card">
+          <div class="fleet-map-toolbar">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="badge badge-success"><span class="pulse-dot"></span> GPS Telemetry Live</span>
+              <span class="text-muted" style="font-size:0.75rem">Nagpur Pilot Sectors: Dharampeth & Laxmi Nagar</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px; font-size:0.75rem;">
+              <span style="color:#10b981">● Completed Route</span>
+              <span style="color:#06b6d4">● Active Vehicle</span>
+              <span style="color:#ef4444">■ Skipped Street Alert</span>
+            </div>
+          </div>
+
+          <div class="map-viewport-container">
+            <div id="fleet-leaflet-map"></div>
+          </div>
+        </div>
+
+        <!-- Right: Active Telemetry & Vehicles Scroll -->
+        <div class="fleet-sidebar-col">
+          <!-- Active Selected Vehicle Telemetry Card -->
+          <div class="fleet-telemetry-panel" id="fleet-active-telemetry-card">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Vehicle Fleet List -->
+          <div class="fleet-scroll-card">
+            <h4 style="font-size:0.88rem; font-weight:700;">Monitored Collection Fleet</h4>
+            <div class="fleet-vehicles-scroll-list" id="fleet-vehicles-scroll-list">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timing Panel: Scheduled vs Actual Collection Timing -->
+      <div class="fleet-timing-panel">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+          <div>
+            <h3 style="font-size:1.1rem; font-weight:800;">Fleet Route Schedule vs Actual Timing Variance</h3>
+            <p class="text-muted" style="font-size:0.78rem">Real-time route start, waypoint timestamps, and delay variance indicators.</p>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Vehicle & Unit</th>
+                <th>Assigned Route ID</th>
+                <th>Operator Name</th>
+                <th>Scheduled Start</th>
+                <th>Actual Start</th>
+                <th>Variance Status</th>
+                <th>Current Waypoint / Landmark</th>
+              </tr>
+            </thead>
+            <tbody id="fleet-timing-table-body">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Skipped Streets Overlay Shelf -->
+      <div class="scorecard-container-card">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+          <div>
+            <h3 style="font-size:1.1rem; font-weight:800; color:#ef4444; display:flex; align-items:center; gap:8px;">
+              <i data-lucide="alert-octagon"></i> Skipped Street Detection & Auto-Reroute Feed
+            </h3>
+            <p class="text-muted" style="font-size:0.78rem">Streets missed due to bottlenecks or roadworks with one-click secondary sweeper dispatch.</p>
+          </div>
+        </div>
+        <div class="skipped-streets-shelf" id="fleet-skipped-streets-list">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODULE 3: GVP (GARBAGE VULNERABLE POINT) RISK PREDICTION
+       ========================================================================== -->
+  <section class="dashboard-module" id="module-gvp">
+    <div class="container">
+      <div class="module-header-row">
+        <div class="module-title-group">
+          <span class="module-tag">Module Deliverable 03</span>
+          <h2>Garbage Vulnerable Point (GVP) AI Risk Prediction</h2>
+          <p>Top-100 vulnerable dumping spot ranking matrix with weekly AI retraining indicators, exportable action rosters, and automated field squad alarms.</p>
+        </div>
+
+        <div class="module-actions-toolbar">
+          <div class="refresh-countdown-badge">
+            <i data-lucide="cpu"></i>
+            <span>Next AI Model Retrain: <strong id="gvp-refresh-countdown">3d 14h 22m 45s</strong></span>
+          </div>
+
+          <button class="btn btn-secondary" id="btn-export-gvp-csv">
+            <i data-lucide="download"></i> Export Action List (CSV)
+          </button>
+
+          <button class="btn btn-outline" id="btn-print-gvp-roster">
+            <i data-lucide="printer"></i> Print Shift Roster
+          </button>
+        </div>
+      </div>
+
+      <!-- Alarming & Mass Communication Notification Panel -->
+      <div id="gvp-alarm-panel-container">
+        <!-- Populated via JS -->
+      </div>
+
+      <!-- Top 100 GVP Risk Ranking Table -->
+      <div class="gvp-table-card">
+        <div class="gvp-table-toolbar">
+          <div>
+            <h3 style="font-size:1.1rem; font-weight:800;">Top-100 GVP Risk Ranking Matrix (Nagpur City)</h3>
+            <span class="text-muted" style="font-size:0.78rem" id="gvp-table-count-label">Showing 1-10 of 100 Vulnerable Points</span>
+          </div>
+
+          <div class="module-actions-toolbar">
+            <select id="gvp-risk-tier-filter" class="form-select">
+              <option value="all">All Risk Tiers</option>
+              <option value="critical">Critical Risk (>85 Score)</option>
+              <option value="high">High Risk (70-84 Score)</option>
+              <option value="moderate">Moderate Risk (50-69 Score)</option>
+              <option value="low">Low / Monitored (&lt;50 Score)</option>
+            </select>
+
+            <select id="gvp-zone-filter" class="form-select">
+              <option value="all">All Zones</option>
+              <option value="Gandhibagh">Gandhibagh</option>
+              <option value="Dharampeth">Dharampeth</option>
+              <option value="Laxmi Nagar">Laxmi Nagar</option>
+              <option value="Hanuman Nagar">Hanuman Nagar</option>
+              <option value="Nehru Nagar">Nehru Nagar</option>
+              <option value="Lakadganj">Lakadganj</option>
+              <option value="Ashi Nagar">Ashi Nagar</option>
+              <option value="Mangalwari">Mangalwari</option>
+            </select>
+
+            <input type="text" id="gvp-search-input" class="form-input" placeholder="Search location or ward..." />
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-sort-field="rank" style="cursor:pointer">Rank <i data-lucide="arrow-up-down"></i></th>
+                <th data-sort-field="location" style="cursor:pointer">GVP Location & Landmark <i data-lucide="arrow-up-down"></i></th>
+                <th data-sort-field="ward" style="cursor:pointer">Ward & Zone <i data-lucide="arrow-up-down"></i></th>
+                <th data-sort-field="riskScore" style="cursor:pointer">AI Risk Index <i data-lucide="arrow-up-down"></i></th>
+                <th data-sort-field="trend" style="cursor:pointer">7-Day Trend <i data-lucide="arrow-up-down"></i></th>
+                <th data-sort-field="predictedWasteKgDay" style="cursor:pointer">Predicted Waste <i data-lucide="arrow-up-down"></i></th>
+                <th data-sort-field="lastCleared" style="cursor:pointer">Last Cleared <i data-lucide="arrow-up-down"></i></th>
+                <th>Status & Action</th>
+              </tr>
+            </thead>
+            <tbody id="gvp-table-body">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="gvp-pagination-bar" id="gvp-pagination-bar">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODULE 4: SWACHH SURVEKSHAN EVIDENCE PACK GENERATOR
+       ========================================================================== -->
+  <section class="dashboard-module" id="module-evidence">
+    <div class="container">
+      <div class="module-header-row">
+        <div class="module-title-group">
+          <span class="module-tag">Module Deliverable 04</span>
+          <h2>Swachh Survekshan Evidence Pack & Audit Generator</h2>
+          <p>Automated compilation of ward segregation scores, route adherence telemetry, and GVP mitigation records into an official MoHUA audit dossier.</p>
+        </div>
+
+        <div class="module-actions-toolbar">
+          <button class="btn btn-primary" id="btn-generate-evidence-pack">
+            <i data-lucide="sparkles"></i> Generate Monthly Evidence Pack (PDF)
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Banner -->
+      <div class="survekshan-banner-card">
+        <div class="survekshan-banner-left">
+          <span class="badge badge-success" style="margin-bottom:8px;">Ministry of Housing & Urban Affairs (MoHUA) Compliant</span>
+          <h3>One-Click Swachh Survekshan 2026 Audit Dossier</h3>
+          <p>Compile verified digital evidence from AI cameras, GPS telematics, and citizen grievance logs into an authenticated municipal compliance package with cryptographic verification stamp.</p>
+        </div>
+        <div>
+          <button class="btn btn-primary" id="btn-banner-generate-evidence" onclick="document.getElementById('btn-generate-evidence-pack').click()">
+            <i data-lucide="file-check"></i> Generate Dossier
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Trend Charts Grid -->
+      <div class="survekshan-charts-grid">
+        <!-- Chart 1: Segregation Compliance Over Time -->
+        <div class="trend-chart-card">
+          <div class="t-chart-header">
+            <h4>Segregation Compliance Trend</h4>
+            <span class="badge badge-success">Target >85%</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chart-segregation-trend"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Route Coverage Over Time -->
+        <div class="trend-chart-card">
+          <div class="t-chart-header">
+            <h4>Route Adherence vs Daily Coverage</h4>
+            <span class="badge badge-cyan">94.8% Achieved</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chart-route-coverage-trend"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: GVP Risk Elimination Trend -->
+        <div class="trend-chart-card">
+          <div class="t-chart-header">
+            <h4>High-Risk GVP Containment</h4>
+            <span class="badge badge-danger">-85% Dump Elimination</span>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="chart-gvp-risk-trend"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODAL: SWACHH SURVEKSHAN EVIDENCE PACK (PDF STYLE PREVIEW)
+       ========================================================================== -->
+  <div class="modal-overlay" id="evidence-pack-modal">
+    <div class="modal-dialog-large">
+      <div id="evidence-modal-body">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: WARD DRILLDOWN INSPECTOR
+       ========================================================================== -->
+  <div class="modal-overlay" id="ward-drilldown-modal">
+    <div class="modal-dialog-large" style="max-width:720px;">
+      <div class="dossier-document" style="background:#0f172a; color:#f8fafc;" id="ward-modal-content">
+        <!-- Populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo-title">Swachh Intelligence • Nagpur Municipal Corporation</div>
+          <p style="max-width:520px; line-height:1.5; color:var(--text-muted); font-size:0.8rem;">
+            A unified municipal intelligence command dashboard designed for automated waste classification, GPS collection fleet tracking, GVP predictive risk mitigation, and Swachh Survekshan audit compliance.
+          </p>
+        </div>
+        <div>
+          <h5 style="color:#ffffff; font-weight:700; margin-bottom:8px; font-size:0.85rem;">Hackathon Problem Statement</h5>
+          <p style="font-size:0.78rem; color:var(--text-muted);">
+            <strong>Problem Statement 04:</strong> Smart City Theme<br>
+            <strong>Competition:</strong> Manthan4Yuva<br>
+            <strong>Urban Local Body:</strong> Nagpur Municipal Corporation (NMC)
+          </p>
+        </div>
+        <div>
+          <h5 style="color:#ffffff; font-weight:700; margin-bottom:8px; font-size:0.85rem;">Technology Stack</h5>
+          <p style="font-size:0.78rem; color:var(--text-muted);">
+            • HTML5 / Modern CSS Design System<br>
+            • GIS Leaflet Mapping Engine<br>
+            • Chart.js Analytics Suite<br>
+            • Simulated Multi-Spectral AI Vision
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <span>© 2026 Nagpur Municipal Corporation • Swachh Bharat Mission (Urban)</span>
+        <span>Built for Manthan4Yuva — Smart City Theme, PS-04</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript App -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
